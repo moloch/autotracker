@@ -1,0 +1,2 @@
+rvm use 2.2.2
+rvm gemset use toggl_auto_tracker
