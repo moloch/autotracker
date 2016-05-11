@@ -1,10 +1,22 @@
+require 'json'
+
 class TimeEntry
 
-  def initialize()
-  end
+  attr_accessor :description, :tags, :duration, :start, :pid, :created_with
 
   def to_json()
-    return '{"time_entry":{}}'
+    JSON.dump (
+    {
+      :time_entry => {
+        :description => @description,
+        :tags => @tags,
+        :duration => @duration,
+        :start => @start,
+        :pid => @pid,
+        :created_with => @created_with
+      }
+    }
+    )
   end
 
 end
