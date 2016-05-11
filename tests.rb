@@ -2,6 +2,8 @@ require 'rspec'
 require 'json'
 require './time_entry.rb'
 require './api.rb'
+require './time_util.rb'
+require './tracker.rb'
 require 'yaml'
 
 RSpec.describe TimeEntry do
@@ -30,7 +32,25 @@ RSpec.describe Api do
     time_entry.created_with = "curl"
     api = Api.new('https://www.toggl.com/api/v8/time_entries', conf['token'])
     expect(api.create_time_entry(time_entry)).to match(/.*data.*Phoenix.*/)
+  end
 
+end
+
+RSpec.describe TimeUtil do
+
+  it 'generates correct timestamps for today' do
+    time = TimeUtil.new
+    expect(time.today()[0]).to eq(Time.new.to_s[0,10] + 'T09:00:00.000+02:00')
+    expect(time.today()[1]).to eq(Time.new.to_s[0,10] + 'T14:00:00.000+02:00')
+  end
+
+end
+
+RSpec.describe Tracker do
+
+  it 'tracks today' do
+    tracker = Tracker.new
+    tracker.track_today()
   end
 
 end
