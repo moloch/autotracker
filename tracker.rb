@@ -7,11 +7,20 @@ require 'yaml'
 class Tracker
 
   def track_today()
-    conf = YAML.load_file('./conf.yaml')
     time = TimeUtil.new
+    track_complete_day time.today
+  end
+
+  def track_yesterday()
+    time = TimeUtil.new
+    track_complete_day time.yesterday
+  end
+
+  def track_complete_day(day)
+    conf = YAML.load_file('./conf.yaml')
     api = Api.new('https://www.toggl.com/api/v8/time_entries', conf['token'])
-    morning = track(conf,api, time.today[0])
-    afternoon = track(conf,api,time.today[1])   
+    morning = track(conf, api, day[0])
+    afternoon = track(conf, api, day[1])
   end
 
   def track(conf,api,time)

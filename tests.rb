@@ -56,7 +56,7 @@ RSpec.describe Tracker do
 
   it 'tracks today' do
     tracker = Tracker.new
-    tracker.track_today()
+    tracker.track_today
   end
 
   it 'tracks yesterday' do
