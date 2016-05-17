@@ -44,6 +44,12 @@ RSpec.describe TimeUtil do
     expect(time.today()[1]).to eq(Time.new.to_s[0,10] + 'T14:00:00.000+02:00')
   end
 
+  it 'generates correct timestamps for yesterday' do
+    time = TimeUtil.new
+    expect(time.yesterday()[0]).to eq((Time.new - (60 * 60 * 24)).to_s[0,10] + 'T09:00:00.000+02:00')
+    expect(time.yesterday()[1]).to eq((Time.new - (60 * 60 * 24)).to_s[0,10] + 'T14:00:00.000+02:00')
+  end
+
 end
 
 RSpec.describe Tracker do
@@ -51,6 +57,11 @@ RSpec.describe Tracker do
   it 'tracks today' do
     tracker = Tracker.new
     tracker.track_today()
+  end
+
+  it 'tracks yesterday' do
+    tracker = Tracker.new
+    tracker.track_yesterday
   end
 
 end
