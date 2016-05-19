@@ -13,7 +13,6 @@ class Api
 
   def create_time_entry(time_entry)
     uri = URI.parse(@url)
-    response = Net::HTTP::Post.new("/v1.1/auth")
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE

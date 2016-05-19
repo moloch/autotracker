@@ -21,9 +21,10 @@ class Tracker
     api = Api.new('https://www.toggl.com/api/v8/time_entries', conf['token'])
     morning = track(conf, api, day[0])
     afternoon = track(conf, api, day[1])
+    return [morning, afternoon]
   end
 
-  def track(conf,api,time)
+  def track(conf, api, time)
     time_entry = TimeEntry.new
     time_entry.description = conf['project.description']
     time_entry.duration = 14400
