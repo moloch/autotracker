@@ -60,12 +60,17 @@ RSpec.describe Tracker do
     time = TimeUtil.new
     tracker = Tracker.new
     body = tracker.track_today
+    data = JSON.parse(body[0])["data"]
+    expect(data["pid"]).to eq(conf['project.id'])
+    expect(data["description"]).to eq(conf['project.description'])
+    expect(data["start"]).to eq(Time.new.to_s[0,10] + 'T09:00:00.000+02:00')
+    expect(data["stop"]).to eq(Time.new .to_s[0,10] + 'T13:00:00+02:00')
     data = JSON.parse(body[1])["data"]
     expect(data["pid"]).to eq(conf['project.id'])
     expect(data["description"]).to eq(conf['project.description'])
     expect(data["start"]).to eq(Time.new.to_s[0,10] + 'T14:00:00.000+02:00')
     expect(data["stop"]).to eq(Time.new .to_s[0,10] + 'T18:00:00+02:00')
-     
+
   end
 
   it 'tracks yesterday' do
@@ -73,6 +78,11 @@ RSpec.describe Tracker do
     time = TimeUtil.new
     tracker = Tracker.new
     body = tracker.track_yesterday
+    data = JSON.parse(body[0])["data"]
+    expect(data["pid"]).to eq(conf['project.id'])
+    expect(data["description"]).to eq(conf['project.description'])
+    expect(data["start"]).to eq((Time.new - (60 * 60 * 24)).to_s[0,10] + 'T09:00:00.000+02:00')
+    expect(data["stop"]).to eq((Time.new - (60 * 60 * 24)).to_s[0,10] + 'T13:00:00+02:00')
     data = JSON.parse(body[1])["data"]
     expect(data["pid"]).to eq(conf['project.id'])
     expect(data["description"]).to eq(conf['project.description'])
