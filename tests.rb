@@ -51,6 +51,32 @@ RSpec.describe TimeUtil do
     expect(time.yesterday()[1]).to eq((Time.new - (60 * 60 * 24)).to_s[0,10] + 'T14:00:00.000+02:00')
   end
 
+  it 'generates correct timestamps for today with 2 hours and 30 minutes late entrance at work' do
+    time = TimeUtil.new
+    expect(time.today_late_entrance(2,30).size).to eq(3)
+    expect(time.today_late_entrance(2,30)[0]).to eq(Time.new.to_s[0,10] + 'T09:00:00.000+02:00')
+    expect(time.today_late_entrance(2,30)[1]).to eq(Time.new.to_s[0,10] + 'T11:30:00.000+02:00')
+    expect(time.today_late_entrance(2,30)[2]).to eq(Time.new.to_s[0,10] + 'T14:00:00.000+02:00')
+
+  end
+
+  it 'generates correct timestamps for today with 4 hours late entrance at work' do
+    time = TimeUtil.new
+    late_entrance = time.today_late_entrance(4,0)
+    expect(late_entrance.size).to eq(2)
+    expect(late_entrance[0]).to eq(Time.new.to_s[0,10] + 'T09:00:00.000+02:00')
+    expect(late_entrance[1]).to eq(Time.new.to_s[0,10] + 'T14:00:00.000+02:00')
+  end
+
+  it 'generates correct timestamps for today with 4 hours and 30 minutes late entrance at work' do
+    time = TimeUtil.new
+    late_entrance = time.today_late_entrance(4,30)
+    expect(late_entrance.size).to eq(3)
+    expect(late_entrance[0]).to eq(Time.new.to_s[0,10] + 'T09:00:00.000+02:00')
+    expect(late_entrance[1]).to eq(Time.new.to_s[0,10] + 'T14:00:00.000+02:00')
+    expect(late_entrance[2]).to eq(Time.new.to_s[0,10] + 'T14:30:00.000+02:00')
+  end
+
 end
 
 RSpec.describe Tracker do
@@ -88,6 +114,9 @@ RSpec.describe Tracker do
     expect(data["description"]).to eq(conf['project.description'])
     expect(data["start"]).to eq((Time.new - (60 * 60 * 24)).to_s[0,10] + 'T14:00:00.000+02:00')
     expect(data["stop"]).to eq((Time.new - (60 * 60 * 24)).to_s[0,10] + 'T18:00:00+02:00')
+  end
+
+  it 'tracks_two_hours_late' do
   end
 
 end
